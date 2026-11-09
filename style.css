@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Visa Ease Solutions · style.css
-   Mobile first. Breakpoints: 480px, 768px, and 1024px (desktop navigation
+   Visa Ease Solutions | Developed by Olideen Technologies
+   style.css: mobile first. Breakpoints: 480px, 768px, and 1024px (desktop navigation
    and wide grids only). Every colour is a variable: edit :root to rebrand.
    ========================================================================== */
 
@@ -119,8 +119,8 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 .bg-blush .small, .bg-blush .micro { color: var(--navy); }
 .lbl { font-size: 14px; font-weight: 600; color: var(--navy); }
 .center { text-align: center; }
-/* Section heads: a stretch grid (not align-items: center, which let wide
-   children overflow both edges). Children cap their own width instead. */
+/* Section heads: a stretch grid. Children cap their own width and centre
+   with auto margins, so long text can never overflow the edges. */
 .sec-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin: 0 0 40px; }
 .sec-head > .h2 { max-width: 42ch; }
 .sec-head > .lead { max-width: 36rem; text-wrap: pretty; }   /* about 65 characters; Jakarta's wide "0" makes ch units overshoot */

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Visa Ease Solutions · script.js
-   Menu, sticky nav, accordions, checklist tabs, cookie notice,
+   Visa Ease Solutions | Developed by Olideen Technologies
+   script.js: menu, sticky nav, accordions, checklist tabs, cookie notice,
    scroll reveal and the enquiry form (EmailJS).
    ========================================================================== */
 
