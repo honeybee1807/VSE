@@ -42,6 +42,8 @@
   --photo-sky: #E6ECF5;
   --photo-sand: #F4E4CF;
   --photo-sea: #DCE9EC;
+  --wa: #128C7E;               /* WhatsApp teal green: white icon 4.1:1 (#25D366 is only 2:1) */
+  --wa-deep: #075E54;          /* hover and focus: white icon 7.7:1 */
 
   --f-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --f-script: 'Allura', 'Segoe Script', cursive;
@@ -328,15 +330,32 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 .foot-legal strong { color: var(--cream); }
 .credit a { text-decoration: underline; text-decoration-color: var(--rose); text-underline-offset: 4px; }
 
-/* ---------- 14. Dock: floating WhatsApp + cookie notice (stops above footer) ---------- */
-.dock { position: sticky; bottom: 16px; z-index: 60; height: 0; pointer-events: none; }
-.dock-in { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 12px; padding: 0 16px; }
-.dock-in > * { pointer-events: auto; }
-.wa-float { display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px; border-radius: var(--r-pill); background: var(--navy); color: var(--white); text-decoration: none; font-weight: 600; font-size: 15px; box-shadow: 0 12px 28px rgba(15, 37, 87, .3); transition: transform .25s var(--ease); }
-.wa-float:hover { transform: translateY(-2px); }
-.wa-i { width: 40px; height: 40px; border-radius: 50%; background: var(--rose-deep); display: inline-flex; align-items: center; justify-content: center; }
-.wa-i .i { width: 22px; height: 22px; }
-.wa-t { display: none; }
+/* ---------- 14. Dock: fixed WhatsApp button + cookie notice ----------
+   Fixed to the viewport on every page. Above the nav (40), below the open
+   mobile menu (80). Phones stack the notice above the button; wider screens
+   place it to the button's left, so neither can cover the other. */
+.dock {
+  position: fixed; z-index: 70; pointer-events: none;
+  left: calc(16px + env(safe-area-inset-left)); right: calc(16px + env(safe-area-inset-right)); bottom: calc(16px + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 12px;
+}
+.dock > * { pointer-events: auto; }
+.wa-float {
+  position: relative; flex: none; width: 56px; height: 56px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--wa); color: var(--white); box-shadow: 0 10px 24px rgba(15, 37, 87, .28);
+  transition: transform .2s var(--ease), background-color .2s;
+}
+.wa-float .i { width: 28px; height: 28px; stroke-width: 2; }
+.wa-float:hover, .wa-float:focus-visible { background: var(--wa-deep); transform: scale(1.06); }
+.wa-float:active { transform: scale(1.1); }
+/* White ring between two navy bands: visible on cream and on the navy footer */
+.wa-float:focus-visible { outline: 3px solid var(--white); outline-offset: 2px; border-radius: 50%; box-shadow: 0 0 0 7px var(--navy); }
+.wa-float::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+@keyframes waPulse { from { box-shadow: 0 0 0 0 rgba(18, 140, 126, .45); } to { box-shadow: 0 0 0 16px rgba(18, 140, 126, 0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .wa-float::after { animation: waPulse 2.4s var(--ease) 1s 3; }   /* three pulses, then still */
+}
 .cookie { width: 100%; max-width: 440px; align-self: stretch; display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-md); }
 .cookie p { margin: 0; font-size: 14px; line-height: 1.5; }
 
@@ -473,9 +492,7 @@ select.input {
   .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fgrid .full { grid-column: 1 / -1; }
   .ticks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .wa-float { padding-right: 20px; }
-  .wa-t { display: inline; }
-  .dock-in { flex-direction: row; justify-content: space-between; align-items: flex-end; padding: 0 24px; }
+  .dock { flex-direction: row-reverse; justify-content: flex-start; }
   .cookie { align-self: auto; }
   .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .form { padding: 32px; }
@@ -521,6 +538,8 @@ select.input {
   .contact-layout { gap: 48px; }
   .legal { grid-template-columns: 280px minmax(0, 1fr); gap: 56px; }
   .phead { padding: 72px 0 76px; }
+  .wa-float { width: 60px; height: 60px; }
+  .wa-float .i { width: 30px; height: 30px; }
 }
 
 /* ---------- Reduced motion ---------- */
