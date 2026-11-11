@@ -82,29 +82,29 @@ Search the folder for `[` to find every placeholder.
 
 ### Site wide
 - [ ] `[DOMAIN]`: the live domain without `https://`, for example `www.visaease.co.za`. Used in canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
-- [ ] `[Trading hours]`, `[Service area]`: footer and Contact page.
+- [x] Trading hours and service area: filled in (Mon to Fri, 8am to 5pm; all provinces in South Africa).
 - [ ] Contact email: replace the Gmail address with the domain email when it is ready. It appears in the utility bar, menu and footer on every page, and on the Home and Contact pages.
 
 ### Home (`index.html`)
-- [ ] JSON-LD business details: `[Street address]`, `[City or town]`, `[Province]`, `[Postal code]`, `[Service area]`, `[Trading hours, e.g. Mo-Fr 08:00-17:00]`, `[Instagram URL]`, `[Facebook URL]`. If there is no public street address, delete the `streetAddress` and `postalCode` lines.
+- [x] JSON-LD business details: legal name, hours and service area filled in. No public address, by the client's choice.
+- [ ] JSON-LD `[Instagram URL]`, `[Facebook URL]`.
 - [ ] Testimonials: `[Client first name]`, `[Destination]`, `[Month Year]` and the three sample reviews. Use only real feedback published with written permission, then remove the "Sample content" label.
 
 ### How it works and FAQ (`how-it-works.html`)
-- [ ] `[response time]`
+- [x] Response time: within 24 hours, excluding weekends and public holidays.
 - [ ] `[Confirm whether any submission support is offered.]`
 - [ ] `[Confirm pricing approach.]`
 - [ ] Confirm the recommended lead time of 6 to 8 weeks.
 - [ ] FAQ answers also appear in the FAQ JSON-LD in the page head. Update both places.
 
 ### Contact (`contact.html`)
-- [ ] `[response time]`: form introduction and success message.
-- [ ] `[Trading hours]`, `[Public holiday hours]`
-- [ ] `[Service area]`, `[Remote or in person consultations]`
+- [x] Response time: within 24 hours, excluding weekends and public holidays.
+- [x] Trading hours, after hours WhatsApp support, service area and video call consultations: filled in.
 - [ ] `[Instagram]`, `[Instagram URL]`, `[Facebook]`, `[Facebook URL]`: remove these buttons if the business has no social accounts.
 
 ### Privacy policy (`privacy-policy.html`)
 The client must review and approve the full wording before launch.
-- [ ] `[Registered business name]`, `[Business address]`
+- [x] Registered business name filled in. No business address is published.
 - [ ] `[Describe secure document sharing method, storage and access controls.]`
 - [ ] `[Retention period]`
 - [ ] `[Information Regulator contact details]`
