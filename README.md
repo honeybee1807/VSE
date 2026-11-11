@@ -1,6 +1,6 @@
 # Visa Ease Solutions
 
-Website for Visa Ease Solutions, a visa and travel assistance service specialising in Schengen visas for South African travellers.
+Website for Visa Ease Solutions, a visa and travel assistance service for South African travellers. Schengen visas are the lead speciality, with support for Canada, Turkey, Saudi Arabia, the USA, selected African countries, Ireland and China.
 
 Developed by Olideen Technologies.
 
@@ -13,7 +13,8 @@ Plain HTML, CSS and JavaScript with no build step. Upload the folder as it is to
 | `index.html` | Home |
 | `services.html` | Services |
 | `schengen-visas.html` | Schengen visas, including the interactive document checklist |
-| `how-it-works.html` | How it works and FAQ |
+| `how-it-works.html` | Our process and FAQ |
+| `apply.html` | Apply Now form (accepts `?visa=` and `?country=`, see below) |
 | `contact.html` | Contact details and enquiry form |
 | `privacy-policy.html` | Privacy policy (POPIA) |
 | `404.html` | Page not found |
@@ -23,7 +24,9 @@ Supporting files:
 | File | Purpose |
 |---|---|
 | `style.css` | All styles. Colours and type sizes are variables in `:root` |
-| `script.js` | Menu, sticky navigation, accordions, checklist tabs, cookie notice, scroll reveal and the enquiry form |
+| `script.js` | Menu, sticky navigation, accordions, checklist tabs, cookie notice, scroll reveal, and the enquiry and apply forms |
+| `assets/icons.svg` | Reference copy of the inline SVG icon sprite that sits at the top of every page. Edit the pages, then update this file to match |
+| `assets/images/` | Destination photos and the two background photos (see Image credits) |
 | `favicon.ico`, `favicon-*.png`, `apple-touch-icon.png`, `android-chrome-*.png`, `site.webmanifest` | Browser and home screen icons |
 | `sitemap.xml`, `robots.txt` | Search engines |
 
@@ -45,36 +48,73 @@ Netlify serves `404.html` for missing pages automatically.
 
 GitHub Pages also serves `404.html` for missing pages automatically.
 
-## EmailJS (enquiry form)
+## EmailJS (enquiry and apply forms)
+
+Both forms use the same code in `script.js` and the same EmailJS service, but each sends through **its own template**, because the fields differ:
+
+| Form | Page | Config key in `script.js` |
+|---|---|---|
+| Enquiry form (`#enquiry-form`) | `contact.html` | `TEMPLATE_ID` |
+| Apply form (`#apply-form`) | `apply.html` | `APPLY_TEMPLATE_ID` |
+
+Every message also carries a `{{form_type}}` value (`enquiry` or `apply`), so you can put it in the subject line, for example `New {{form_type}} from the website`.
 
 1. Create an account at emailjs.com and add an email service connected to the client's mailbox.
-2. Create a template that uses these variables: `{{full_name}}`, `{{whatsapp}}`, `{{email}}`, `{{destination}}`, `{{purpose}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
-3. At the top of `script.js`, replace the three values:
+2. Create the **enquiry template** with these variables: `{{full_name}}`, `{{whatsapp}}`, `{{email}}`, `{{destination}}`, `{{purpose}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}`, `{{form_type}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
+3. Create the **apply template** with these variables: `{{first_name}}`, `{{last_name}}`, `{{email}}`, `{{whatsapp}}`, `{{town}}`, `{{destination}}`, `{{visa_type}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}`, `{{form_type}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
+4. At the top of `script.js`, replace the four values:
    ```js
    const EMAILJS_CONFIG = {
      SERVICE_ID: 'SERVICE_ID',
      TEMPLATE_ID: 'TEMPLATE_ID',
+     APPLY_TEMPLATE_ID: 'APPLY_TEMPLATE_ID',
      PUBLIC_KEY: 'PUBLIC_KEY'
    };
    ```
-4. In the EmailJS dashboard, restrict the public key to the live domain (**Account > Security**).
-5. Set `DEMO_WHEN_UNCONFIGURED` in `script.js` to `false` before launch. While it is `true` and the keys are unchanged, the form shows its success message without sending anything.
+   If you would rather use one template for both forms, set `APPLY_TEMPLATE_ID` to the same value as `TEMPLATE_ID` and include every variable from both lists. Variables a form does not send are left blank.
+5. In the EmailJS dashboard, restrict the public key to the live domain (**Account > Security**).
+6. Set `DEMO_WHEN_UNCONFIGURED` in `script.js` to `false` before launch. While it is `true` and a form's keys are unchanged, that form shows its success message without sending anything.
 
-How the form behaves:
-- It validates full name, a South African mobile number (`082 123 4567`, `+27 82 123 4567` and `27821234567` are all accepted) and email.
-- The consent checkbox is required.
-- A hidden honeypot field (`company_website`) silently drops bot submissions and is never sent.
-- It does not ask for passport or ID numbers.
+How the forms behave:
+- They validate names, the town or city (apply form), a South African mobile number (`082 123 4567`, `+27 82 123 4567` and `27821234567` are all accepted) and email.
+- The consent checkbox is required, and its text links to the Privacy Policy.
+- A hidden honeypot field (`company_website`) silently drops bot submissions and is never sent. There is no reCAPTCHA.
+- They never ask for passport numbers, ID numbers or document uploads.
+
+### Preselecting the apply form from a link
+
+`apply.html` reads two optional URL parameters and selects the matching option:
+
+- `?visa=` `tourist`, `business`, `family`, `student`, `work`, `transit` or `not-sure`
+- `?country=` `schengen`, `france`, `germany`, `italy`, `spain`, `netherlands`, `belgium`, `sweden`, `canada`, `turkey`, `saudi-arabia`, `usa`, `africa`, `ireland`, `china`, `other` or `not-sure`
+
+For example `apply.html?visa=tourist&country=canada`. An unknown value is ignored. The slugs are the `data-slug` attributes on the `<option>` elements. The contact form's destination list accepts `?country=` in the same way.
 
 ## Asset checklist
 
 - [ ] **Fonts:** create `assets/fonts/` and add these self-hosted files (all SIL Open Font License):
   `playfair-display-600.woff2`, `playfair-display-700.woff2`, `allura-400.woff2`, `plus-jakarta-sans-400.woff2`, `plus-jakarta-sans-500.woff2`, `plus-jakarta-sans-600.woff2`, `plus-jakarta-sans-700.woff2`. Until they are added, the site falls back to system fonts.
 - [ ] **Social sharing image:** `assets/og-image.jpg`, 1200 × 630.
-- [x] **Photos:** all 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
-  - Home: `eiffel-tower.jpg`, `colosseum.jpg`, `venice-canal.jpg`, `dutch-windmills.jpg`
+- [x] **Destination photos:** 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
+  - Home: `eiffel-tower.jpg` (Schengen card in "Countries we assist with"), `venice-canal.jpg`, `dutch-windmills.jpg`. `colosseum.jpg` is no longer used on the home page since the hero postcards were removed. Keep it or delete it.
   - Schengen visas: `france.jpg`, `italy.jpg`, `spain.jpg`, `germany.jpg`, `netherlands.jpg`, `belgium.jpg`, `sweden.jpg`
+- [ ] **Country photos (home page, "Countries we assist with"):** seven cards show a "Licensed photo" placeholder. For each, add an 800 × 600 `.jpg` to `assets/images/`, then replace the placeholder `<div class="ph …">` with the `<img>` line in the HTML comment just above it. Files: `canada.jpg`, `turkey.jpg`, `saudi-arabia.jpg`, `usa.jpg`, `african-countries.jpg`, `ireland.jpg`, `china.jpg`. The suggested subject for each is in the comment's `alt` text.
+- [x] **Background photos:** in `assets/images/`, set in `style.css` as decorative backgrounds. Each comes as a 1920px desktop file and an 800px mobile file, in WebP with a JPEG fallback, all under 200 KB:
+  - Hero: `hero-bg.webp` / `hero-bg.jpg` (1920 × 1280) and `hero-bg-800.webp` / `hero-bg-800.jpg` (800 × 1000). Subject: a white aeroplane wing over clouds on a bright day. A cream overlay keeps the text readable.
+  - Apply page header: `apply-bg.webp` / `apply-bg.jpg` (1920 × 800) and `apply-bg-800.webp` / `apply-bg-800.jpg` (800 × 700). Subject: a traveller with luggage at an airport. An 80% navy overlay keeps the text readable.
+  - To replace one, keep the same file names and sizes, and keep the subject away from the left side of the hero image, where the text sits.
 - [ ] **Logo:** the logo is drawn as inline SVG (`#logo-dark`, `#logo-light`). Replace it with the client's original vector artwork when supplied.
+
+## Image credits
+
+Both background photos are free to use for commercial work without attribution. The credits are recorded here as the licence record.
+
+| File | Subject | Photographer | Source | Licence |
+|---|---|---|---|---|
+| `hero-bg*` | White aeroplane wing above clouds, over Exuma, The Bahamas | Lee Robinson | [Unsplash](https://unsplash.com/photos/white-airplane-wing-across-clouds-during-daytime-PJlkDMPtFEE) | [Unsplash License](https://unsplash.com/license) |
+| `apply-bg*` | Man with luggage on an airport escalator | Berna (`@mibernaa`) | [Pexels](https://www.pexels.com/photo/man-with-luggage-on-an-escalator-18628693/) | [Pexels License](https://www.pexels.com/license/) |
+
+The 11 destination photos were added earlier. Keep their licence records with the client's files.
 
 ## Placeholder checklist
 
@@ -84,13 +124,17 @@ Search the folder for `[` to find every placeholder.
 - [ ] `[DOMAIN]`: the live domain without `https://`, for example `www.visaease.co.za`. Used in canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
 - [x] Trading hours and service area: filled in (Mon to Fri, 8am to 5pm; all provinces in South Africa).
 - [ ] Contact email: replace the Gmail address with the domain email when it is ready. It appears in the utility bar, menu and footer on every page, and on the Home and Contact pages.
+- [ ] `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`: the social links in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the Home page JSON-LD. If the business has no account on one of them, delete that `<li>` everywhere it appears, and its line in `sameAs`.
+- [ ] `APPLY_TEMPLATE_ID` (and `SERVICE_ID`, `TEMPLATE_ID`, `PUBLIC_KEY`) in `script.js`: see EmailJS above.
+- [ ] Country photos and `assets/og-image.jpg`: see the Asset checklist.
 
 ### Home (`index.html`)
 - [x] JSON-LD business details: legal name, hours and service area filled in. No public address, by the client's choice.
-- [ ] JSON-LD `[Instagram URL]`, `[Facebook URL]`.
+- [ ] JSON-LD `sameAs`: `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`.
+- [ ] Seven "Licensed photo" placeholders in "Countries we assist with" (see the Asset checklist).
 - [ ] Testimonials: `[Client first name]`, `[Destination]`, `[Month Year]` and the three sample reviews. Use only real feedback published with written permission, then remove the "Sample content" label.
 
-### How it works and FAQ (`how-it-works.html`)
+### Our process and FAQ (`how-it-works.html`)
 - [x] Response time: within 24 hours, excluding weekends and public holidays.
 - [ ] `[Confirm whether any submission support is offered.]`
 - [ ] `[Confirm pricing approach.]`
@@ -100,7 +144,7 @@ Search the folder for `[` to find every placeholder.
 ### Contact (`contact.html`)
 - [x] Response time: within 24 hours, excluding weekends and public holidays.
 - [x] Trading hours, after hours WhatsApp support, service area and video call consultations: filled in.
-- [ ] `[Instagram]`, `[Instagram URL]`, `[Facebook]`, `[Facebook URL]`: remove these buttons if the business has no social accounts.
+- [ ] "Follow us" card: `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`. The old `[Instagram]` and `[Facebook]` handle labels were replaced by icon buttons, so no handle names are needed.
 
 ### Privacy policy (`privacy-policy.html`)
 The client must review and approve the full wording before launch.
@@ -111,13 +155,19 @@ The client must review and approve the full wording before launch.
 - [ ] `[Information Officer name]`, `[email address]`
 - [ ] `[Date]`: last updated date.
 
-### Content to confirm with the client
+### Confirm with the client
+- [ ] **African countries:** which countries to name. The site currently says "selected African countries" and asks visitors to get in touch about their destination.
+- [ ] **Visa types:** whether student, work and transit visas are all offered. Each has a card on the Home page and an option in the apply form. Remove any that are not offered.
+- [ ] **Submitting on applicants' behalf:** whether the client submits applications on applicants' behalf. The site does not claim this anywhere, and the FAQ still holds `[Confirm whether any submission support is offered.]`.
+- [ ] **Social media:** the Facebook, Instagram and TikTok page addresses.
+- [ ] **Other destinations:** the site makes no claims about whether South Africans need a visa for Canada, Turkey, Saudi Arabia, the USA, Ireland, China or African countries, and gives no fees, rules or processing times for them. Add details only once they are checked against official sources.
 - [ ] Exact brand colours.
 - [ ] Schengen facts on the Schengen page and in the FAQ, checked against current embassy guidance: 90 days in any 180, applying up to six months ahead and at least 15 days before travel, processing of about 15 days, and the document checklists.
 
 ## Notes
 
-- **Breakpoints:** mobile first at 480px, 768px and 1024px. The full desktop navigation and the three and four column grids start at 1024px.
+- **Breakpoints:** mobile first at 480px, 768px and 1024px. The full desktop navigation and the three and four column grids start at 1024px. One extra rule at 400px only swaps the utility bar email link between "Email" and the full address.
+- **Utility bar:** visible on every screen size. Phones show one row with the WhatsApp number and an email link. Tablets add the "WhatsApp" label and the social icons. Desktops also show the "Specialising in Schengen visas" note.
 - **Fonts** are self-hosted, so no third-party font request is made (helpful for POPIA).
 - **Motion:** all animation is switched off for visitors who prefer reduced motion.
 - **404 page:** links on it are relative, so it works best for missing pages at the top level of the site.

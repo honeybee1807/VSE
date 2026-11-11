@@ -1,16 +1,17 @@
 /* ==========================================================================
    Visa Ease Solutions | Developed by Olideen Technologies
    script.js: menu, sticky nav, accordions, checklist tabs, cookie notice,
-   scroll reveal and the enquiry form (EmailJS).
+   scroll reveal and the enquiry and apply forms (EmailJS).
    ========================================================================== */
 
-/* ---------- EmailJS configuration: replace the three placeholders ---------- */
+/* ---------- EmailJS configuration: replace the four placeholders ---------- */
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'SERVICE_ID',   // e.g. 'service_abc123'
-  TEMPLATE_ID: 'TEMPLATE_ID', // e.g. 'template_xyz789'
-  PUBLIC_KEY: 'PUBLIC_KEY'    // EmailJS > Account > General > Public key
+  SERVICE_ID: 'SERVICE_ID',               // e.g. 'service_abc123'
+  TEMPLATE_ID: 'TEMPLATE_ID',             // enquiry form (contact.html), e.g. 'template_xyz789'
+  APPLY_TEMPLATE_ID: 'APPLY_TEMPLATE_ID', // apply form (apply.html)
+  PUBLIC_KEY: 'PUBLIC_KEY'                // EmailJS > Account > General > Public key
 };
-/* While the placeholders above are unchanged, the form shows its success state
+/* While the placeholders above are unchanged, the forms show their success state
    without sending, so the design can be tested locally. Set to false to show
    an error instead. */
 const DEMO_WHEN_UNCONFIGURED = true;
@@ -129,134 +130,147 @@ const DEMO_WHEN_UNCONFIGURED = true;
     }
   }
 
-  /* ---------- Enquiry form ---------- */
-  const form = $('#enquiry-form');
-  if (!form) return;
-
-  const fieldsWrap = $('[data-form-fields]', form);
-  const done = $('#form-done', form);
-  const alertBox = $('#form-alert', form);
-  const alertText = $('[data-alert-text]', form);
-  const submitBtn = $('[data-submit]', form);
-  const submitLabel = $('[data-submit-label]', form);
+  /* ---------- Forms: enquiry (contact.html) and apply (apply.html) ----------
+     Every <form data-form> shares the same validation, alerts, success state
+     and EmailJS sending. data-template names the EMAILJS_CONFIG key to use. */
   const DEFAULT_ALERT = 'Please check the highlighted fields and try again.';
-
   const normalisePhone = (v) => v.replace(/[\s\-().]/g, '');
+  const isName = (min) => (v) => v.trim().length >= min && /[A-Za-zÀ-ÿ]/.test(v);
   const rules = {
-    full_name: (v) => v.trim().length >= 2 && /[A-Za-zÀ-ÿ]/.test(v),
+    full_name: isName(2),
+    first_name: isName(1),
+    last_name: isName(1),
+    town: isName(2),
     whatsapp: (v) => { const n = normalisePhone(v); return /^(?:\+27|0027|27|0)[1-9]\d{8}$/.test(n) || /^\+(?!27)[1-9]\d{7,14}$/.test(n); },
     email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
   };
+  const PLACEHOLDER = /^(SERVICE_ID|TEMPLATE_ID|APPLY_TEMPLATE_ID|PUBLIC_KEY)$/;
 
-  const setFieldState = (input, ok) => {
-    const err = document.getElementById(input.id + '-e');
-    input.classList.toggle('is-error', !ok);
-    input.classList.toggle('is-valid', ok);
-    input.setAttribute('aria-invalid', String(!ok));
-    if (err) err.hidden = ok;
-  };
-
-  const validateField = (input) => {
-    const rule = rules[input.name];
-    if (!rule) return true;
-    const ok = rule(input.value);
-    setFieldState(input, ok);
-    return ok;
-  };
-
-  const consent = form.elements.consent;
-  const validateConsent = () => {
-    const err = $('#consent-e', form);
-    if (err) err.hidden = consent.checked;
-    consent.setAttribute('aria-invalid', String(!consent.checked));
-    return consent.checked;
-  };
-
-  Object.keys(rules).forEach((name) => {
-    const input = form.elements[name];
-    if (!input) return;
-    input.addEventListener('blur', () => { if (input.value.trim()) validateField(input); });
-    input.addEventListener('input', () => { if (input.classList.contains('is-error')) validateField(input); });
-  });
-  consent.addEventListener('change', validateConsent);
-
-  const showAlert = (msg) => {
-    alertText.textContent = msg || DEFAULT_ALERT;
-    alertBox.hidden = false;
-    alertBox.focus();
-  };
-
-  const setLoading = (on) => {
-    submitBtn.disabled = on;
-    submitBtn.classList.toggle('is-loading', on);
-    submitLabel.textContent = on ? 'Sending…' : 'Send enquiry';
-  };
-
-  const showSuccess = () => {
-    fieldsWrap.hidden = true;
-    done.hidden = false;
-    done.focus();
-  };
-
-  const isConfigured = () => !Object.values(EMAILJS_CONFIG).some((v) => /^(SERVICE_ID|TEMPLATE_ID|PUBLIC_KEY)$/.test(v));
-
-  const collect = () => {
-    const data = new FormData(form);
-    data.delete('company_website'); // honeypot never leaves the browser
-    const params = {};
-    data.forEach((value, key) => { params[key] = String(value).trim(); });
-    params.whatsapp = normalisePhone(params.whatsapp || '');
-    params.consent = consent.checked ? 'yes' : 'no';
-    params.page = window.location.href;
-    return params;
-  };
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    alertBox.hidden = true;
-
-    const valid = Object.keys(rules).map((n) => validateField(form.elements[n])).every(Boolean);
-    const agreed = validateConsent();
-    if (!valid || !agreed) {
-      showAlert(DEFAULT_ALERT);
-      const firstBad = $('.is-error', form) || (!agreed ? consent : null);
-      if (firstBad) firstBad.focus({ preventScroll: false });
-      return;
-    }
-
-    /* Honeypot: bots fill hidden fields. Pretend success, send nothing. */
-    if (form.elements.company_website.value) { showSuccess(); return; }
-
-    if (!isConfigured()) {
-      console.warn('[Visa Ease] EmailJS is not configured. Replace SERVICE_ID, TEMPLATE_ID and PUBLIC_KEY in script.js.');
-      if (DEMO_WHEN_UNCONFIGURED) { showSuccess(); return; }
-      showAlert('Sorry, the form is not available right now. Please contact us on WhatsApp on 068 249 7759.');
-      return;
-    }
-
-    if (!window.emailjs) {
-      showAlert('Sorry, we could not send your enquiry. Please try again or contact us on WhatsApp on 068 249 7759.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, collect(), { publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
-      showSuccess();
-    } catch (err) {
-      console.error('[Visa Ease] EmailJS error', err);
-      showAlert('Sorry, we could not send your enquiry. Please try again or contact us on WhatsApp on 068 249 7759.');
-    } finally {
-      setLoading(false);
-    }
+  /* Preselect a <select data-param="visa"> or data-param="country" option from
+     the URL, for example apply.html?visa=tourist or apply.html?country=canada */
+  const params = new URLSearchParams(window.location.search);
+  $$('select[data-param]').forEach((select) => {
+    const slug = (params.get(select.dataset.param) || '').toLowerCase();
+    const match = slug && Array.from(select.options).find((o) => o.dataset.slug === slug);
+    if (match) match.selected = true;
   });
 
-  $('[data-form-reset]', form).addEventListener('click', () => {
-    form.reset();
-    $$('.input', form).forEach((i) => { i.classList.remove('is-error', 'is-valid'); i.removeAttribute('aria-invalid'); });
-    $$('.err', form).forEach((el) => { el.hidden = true; });
-    done.hidden = true;
-    fieldsWrap.hidden = false;
-    form.elements.full_name.focus();
-  });
+  const initForm = (form) => {
+    const fieldsWrap = $('[data-form-fields]', form);
+    const done = $('[data-form-done]', form);
+    const alertBox = $('[data-form-alert]', form);
+    const alertText = $('[data-alert-text]', form);
+    const submitBtn = $('[data-submit]', form);
+    const submitLabel = $('[data-submit-label]', form);
+    const submitText = form.dataset.submitText || submitLabel.textContent;
+    const noun = form.dataset.noun || 'message';
+    const templateKey = form.dataset.template || 'TEMPLATE_ID';
+    const failMsg = `Sorry, we could not send your ${noun}. Please try again or contact us on WhatsApp on 068 249 7759.`;
+    const ruleNames = Object.keys(rules).filter((name) => form.elements[name]);
+    const consent = form.elements.consent;
+
+    const setFieldState = (input, ok) => {
+      const err = document.getElementById(input.id + '-e');
+      input.classList.toggle('is-error', !ok);
+      input.classList.toggle('is-valid', ok);
+      input.setAttribute('aria-invalid', String(!ok));
+      if (err) err.hidden = ok;
+    };
+    const validateField = (input) => {
+      const ok = rules[input.name](input.value);
+      setFieldState(input, ok);
+      return ok;
+    };
+    const validateConsent = () => {
+      const err = document.getElementById(consent.id + '-e');
+      if (err) err.hidden = consent.checked;
+      consent.setAttribute('aria-invalid', String(!consent.checked));
+      return consent.checked;
+    };
+
+    ruleNames.forEach((name) => {
+      const input = form.elements[name];
+      input.addEventListener('blur', () => { if (input.value.trim()) validateField(input); });
+      input.addEventListener('input', () => { if (input.classList.contains('is-error')) validateField(input); });
+    });
+    consent.addEventListener('change', validateConsent);
+
+    const showAlert = (msg) => {
+      alertText.textContent = msg || DEFAULT_ALERT;
+      alertBox.hidden = false;
+      alertBox.focus();
+    };
+    const setLoading = (on) => {
+      submitBtn.disabled = on;
+      submitBtn.classList.toggle('is-loading', on);
+      submitLabel.textContent = on ? 'Sending…' : submitText;
+    };
+    const showSuccess = () => {
+      fieldsWrap.hidden = true;
+      done.hidden = false;
+      done.focus();
+    };
+    const isConfigured = () => ![EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG[templateKey], EMAILJS_CONFIG.PUBLIC_KEY]
+      .some((v) => !v || PLACEHOLDER.test(v));
+
+    const collect = () => {
+      const data = new FormData(form);
+      data.delete('company_website'); // honeypot never leaves the browser
+      const out = {};
+      data.forEach((value, key) => { out[key] = String(value).trim(); });
+      out.whatsapp = normalisePhone(out.whatsapp || '');
+      out.consent = consent.checked ? 'yes' : 'no';
+      out.form_type = out.form_type || 'enquiry';
+      out.page = window.location.href;
+      return out;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.hidden = true;
+
+      const valid = ruleNames.map((n) => validateField(form.elements[n])).every(Boolean);
+      const agreed = validateConsent();
+      if (!valid || !agreed) {
+        showAlert(DEFAULT_ALERT);
+        const firstBad = $('.is-error', form) || (!agreed ? consent : null);
+        if (firstBad) firstBad.focus({ preventScroll: false });
+        return;
+      }
+
+      /* Honeypot: bots fill hidden fields. Pretend success, send nothing. */
+      if (form.elements.company_website.value) { showSuccess(); return; }
+
+      if (!isConfigured()) {
+        console.warn(`[Visa Ease] EmailJS is not configured. Replace SERVICE_ID, ${templateKey} and PUBLIC_KEY in script.js.`);
+        if (DEMO_WHEN_UNCONFIGURED) { showSuccess(); return; }
+        showAlert('Sorry, the form is not available right now. Please contact us on WhatsApp on 068 249 7759.');
+        return;
+      }
+
+      if (!window.emailjs) { showAlert(failMsg); return; }
+
+      setLoading(true);
+      try {
+        await window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG[templateKey], collect(), { publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
+        showSuccess();
+      } catch (err) {
+        console.error('[Visa Ease] EmailJS error', err);
+        showAlert(failMsg);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    $('[data-form-reset]', form).addEventListener('click', () => {
+      form.reset();
+      $$('.input', form).forEach((i) => { i.classList.remove('is-error', 'is-valid'); i.removeAttribute('aria-invalid'); });
+      $$('.err', form).forEach((el) => { el.hidden = true; });
+      done.hidden = true;
+      fieldsWrap.hidden = false;
+      $('.input', form).focus();
+    });
+  };
+
+  $$('form[data-form]').forEach(initForm);
 })();
