@@ -39,9 +39,6 @@
   --error: #A3352F;
   --error-bg: #FBE6E3;
   --error-line: #E7B4AF;
-  --photo-sky: #E6ECF5;
-  --photo-sand: #F4E4CF;
-  --photo-sea: #DCE9EC;
   --wa: #128C7E;               /* WhatsApp teal green: white icon 4.1:1 (#25D366 is only 2:1) */
   --wa-deep: #075E54;          /* hover and focus: white icon 7.7:1 */
 
@@ -220,7 +217,7 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 @keyframes veSpin { to { transform: rotate(360deg); } }
 @keyframes veDash { to { stroke-dashoffset: -100; } }
 .passport {
-  position: absolute; left: 30%; top: 28%; width: 42%; aspect-ratio: 3 / 4.2; z-index: 3;
+  position: absolute; left: 34%; top: 50%; width: 32%; aspect-ratio: 3 / 4.2; z-index: 3;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10%;
   background: var(--navy); color: var(--gold); border-radius: 10px 16px 16px 10px;
   box-shadow: 0 24px 40px rgba(15, 37, 87, .28); transform: rotate(-8deg);
@@ -229,22 +226,16 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 .pp-title { font-family: var(--f-display); font-size: clamp(12px, 3.4vw, 20px); letter-spacing: .18em; font-weight: 600; }
 .passport .i { width: 44%; height: auto; aspect-ratio: 1; stroke: var(--gold); stroke-width: 1.2; }
 .pp-chip { width: 16%; height: 6%; border: 1.5px solid var(--gold); border-radius: 3px; }
-.plane-art { position: absolute; right: 4%; top: 56%; width: 34%; height: auto; aspect-ratio: 1; z-index: 4; transform: rotate(-18deg); filter: drop-shadow(0 12px 14px rgba(15, 37, 87, .18)); }
-.postcard { position: absolute; z-index: 2; margin: 0; background: var(--white); padding: 7px 7px 24px; border-radius: 6px; box-shadow: var(--shadow-md); width: 36%; }
-.postcard.a { left: 0; top: 12%; transform: rotate(-7deg); }
-.postcard.b { right: 2%; top: 4%; transform: rotate(6deg); width: 32%; }
+.plane-art { position: absolute; right: 2%; top: 58%; width: 28%; height: auto; aspect-ratio: 1; z-index: 4; transform: rotate(-18deg); filter: drop-shadow(0 12px 14px rgba(15, 37, 87, .18)); }
+.postcard { position: absolute; z-index: 2; margin: 0; background: var(--white); padding: 7px 7px 24px; border-radius: 6px; box-shadow: var(--shadow-md); width: 46%; }
+.postcard.a { left: 2%; top: 4%; transform: rotate(-6deg); }
+.postcard.b { right: 2%; top: 10%; transform: rotate(5deg); width: 44%; }
 .postcard .cap { position: absolute; left: 10px; bottom: 5px; font-size: 10.5px; font-weight: 600; color: var(--navy-soft); letter-spacing: .04em; }
-.postmark { position: absolute; left: 4%; bottom: 2%; width: 34%; z-index: 5; color: var(--navy); transform: rotate(-10deg); }
+.postmark { position: absolute; left: 3%; bottom: 3%; width: 30%; z-index: 5; color: var(--navy); transform: rotate(-10deg); }
 .postmark svg { width: 100%; height: auto; }
 
-/* ---------- 9. Photo placeholders (swap for <img loading="lazy">) ---------- */
-.ph { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; background: var(--blush); display: flex; align-items: center; justify-content: center; color: var(--navy); }
-.ph.sky { background: var(--photo-sky); }
-.ph.sand { background: var(--photo-sand); }
-.ph.sea { background: var(--photo-sea); }
-.ph .land { width: 62%; height: 62%; opacity: .55; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ph-tag { position: absolute; left: 8px; top: 8px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgba(255, 255, 255, .9); padding: 3px 8px; border-radius: var(--r-pill); }
-.photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-md); }
+/* ---------- 9. Photos ---------- */
+.photo { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-md); }
 
 /* ---------- 10. Cards ---------- */
 .card {

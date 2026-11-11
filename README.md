@@ -71,7 +71,7 @@ How the form behaves:
 - [ ] **Fonts:** create `assets/fonts/` and add these self-hosted files (all SIL Open Font License):
   `playfair-display-600.woff2`, `playfair-display-700.woff2`, `allura-400.woff2`, `plus-jakarta-sans-400.woff2`, `plus-jakarta-sans-500.woff2`, `plus-jakarta-sans-600.woff2`, `plus-jakarta-sans-700.woff2`. Until they are added, the site falls back to system fonts.
 - [ ] **Social sharing image:** `assets/og-image.jpg`, 1200 × 630.
-- [ ] **Photos:** add licensed photos to `assets/images/` (about 800 × 600, compressed `.jpg` or `.webp`). Each grey "Licensed photo" block has a commented `<img>` tag directly above it with the file name and alt text. Uncomment the `<img>` and delete the placeholder `<div>`. Files expected:
+- [x] **Photos:** all 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
   - Home: `eiffel-tower.jpg`, `colosseum.jpg`, `venice-canal.jpg`, `dutch-windmills.jpg`
   - Schengen visas: `france.jpg`, `italy.jpg`, `spain.jpg`, `germany.jpg`, `netherlands.jpg`, `belgium.jpg`, `sweden.jpg`
 - [ ] **Logo:** the logo is drawn as inline SVG (`#logo-dark`, `#logo-light`). Replace it with the client's original vector artwork when supplied.
