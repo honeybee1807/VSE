@@ -117,7 +117,7 @@ Notes:
 
 ## Before launch
 
-- [ ] `assets/og-image.jpg` (1200 × 630) does not exist yet. Every page's `og:image`, `twitter:image` and the schema `image` point to it, so link previews will show no image until it is added.
+- [x] `assets/og-image.jpg` (1200 × 630, 84 KB) added: the logo and name, "Visa and Travel Assistance for South Africans", "Specialising in Schengen visas", and a navy band with the slogan, domain and WhatsApp number, over the hero wing photo.
 - [ ] `[City or town]` and `[Province]` in the schema, or remove them.
 - [ ] `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]` in `sameAs`.
 - [ ] Three FAQ answers still contain placeholders, in both the visible FAQ and the `FAQPage` schema: "How early should I start?" (`[6 to 8 weeks]`), "Do you submit my application on my behalf?" (`[Confirm whether any submission support is offered.]`) and "How much do your services cost?" (`[Confirm pricing approach.]`). Update both places, then run the check again.
