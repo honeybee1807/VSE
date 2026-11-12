@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://visaeasesolutions.co.za/sitemap.xml
+Sitemap: https://www.visaeasesolutions.co.za/sitemap.xml
