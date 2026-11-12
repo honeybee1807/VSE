@@ -121,7 +121,7 @@ The 11 destination photos were added earlier. Keep their licence records with th
 Search the folder for `[` to find every placeholder.
 
 ### Site wide
-- [ ] `[DOMAIN]`: the live domain without `https://`, for example `www.visaease.co.za`. Used in canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
+- [x] Domain: `visaeasesolutions.co.za`, set in `CNAME` (GitHub Pages custom domain). Used in canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`. If the domain changes, update `CNAME` and search the folder for `visaeasesolutions.co.za`.
 - [x] Trading hours and service area: filled in (Mon to Fri, 8am to 5pm; all provinces in South Africa).
 - [ ] Contact email: replace the Gmail address with the domain email when it is ready. It appears in the utility bar, menu and footer on every page, and on the Home and Contact pages.
 - [ ] `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`: the social links in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the Home page JSON-LD. If the business has no account on one of them, delete that `<li>` everywhere it appears, and its line in `sameAs`.
