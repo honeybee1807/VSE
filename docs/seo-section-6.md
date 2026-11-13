@@ -79,9 +79,9 @@ Every page's `<head>` has these, in this order:
     }
   ],
   "sameAs": [
-    "[Facebook URL]",
-    "[Instagram URL]",
-    "[TikTok URL]"
+    "https://www.facebook.com/visaeasesolutions",
+    "https://www.instagram.com/visaeasesolutions",
+    "https://www.tiktok.com/@visaeasesolutions"
   ],
   "knowsAbout": [
     "Schengen visa",
@@ -92,7 +92,9 @@ Every page's `<head>` has these, in this order:
     "Turkey visa applications",
     "Saudi Arabia visa applications",
     "USA visa applications",
-    "Visa applications for African countries",
+    "Nigeria visa applications",
+    "Ghana visa applications",
+    "Côte d'Ivoire visa applications",
     "Ireland visa applications",
     "China visa applications"
   ]
@@ -119,6 +121,6 @@ Notes:
 
 - [x] `assets/og-image.jpg` (1200 × 630, 84 KB) added: the logo and name, "Visa and Travel Assistance for South Africans", "Specialising in Schengen visas", and a navy band with the slogan, domain and WhatsApp number, over the hero wing photo.
 - [ ] `[City or town]` and `[Province]` in the schema, or remove them.
-- [ ] `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]` in `sameAs`.
+- [x] `sameAs`: the Facebook, Instagram and TikTok page addresses (added 13 November 2026).
 - [ ] Three FAQ answers still contain placeholders, in both the visible FAQ and the `FAQPage` schema: "How early should I start?" (`[6 to 8 weeks]`), "Do you submit my application on my behalf?" (`[Confirm whether any submission support is offered.]`) and "How much do your services cost?" (`[Confirm pricing approach.]`). Update both places, then run the check again.
 - [ ] Google Search Console and sitemap submission: see Section 8.

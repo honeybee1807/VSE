@@ -83,7 +83,7 @@ const BUSINESS = {
       closes: '17:00'
     }
   ],
-  sameAs: ['[Facebook URL]', '[Instagram URL]', '[TikTok URL]'],
+  sameAs: ['https://www.facebook.com/visaeasesolutions', 'https://www.instagram.com/visaeasesolutions', 'https://www.tiktok.com/@visaeasesolutions'],
   knowsAbout: [
     'Schengen visa',
     'Visa application preparation',
@@ -93,7 +93,9 @@ const BUSINESS = {
     'Turkey visa applications',
     'Saudi Arabia visa applications',
     'USA visa applications',
-    'Visa applications for African countries',
+    'Nigeria visa applications',
+    'Ghana visa applications',
+    "Côte d'Ivoire visa applications",
     'Ireland visa applications',
     'China visa applications'
   ]

@@ -1,6 +1,6 @@
 # Visa Ease Solutions
 
-Website for Visa Ease Solutions, a visa and travel assistance service for South African travellers. Schengen visas are the lead speciality, with support for Canada, Turkey, Saudi Arabia, the USA, selected African countries, Ireland and China.
+Website for Visa Ease Solutions, a visa and travel assistance service for South African travellers. Schengen visas are the lead speciality, with support for Canada, Turkey, Saudi Arabia, the USA, Nigeria, Ghana, Côte d'Ivoire, Ireland and China.
 
 Developed by Olideen Technologies.
 
@@ -90,7 +90,7 @@ How the forms behave:
 `apply.html` reads two optional URL parameters and selects the matching option:
 
 - `?visa=` `tourist`, `business`, `family`, `student`, `work`, `transit` or `not-sure`
-- `?country=` `schengen`, `france`, `germany`, `italy`, `spain`, `netherlands`, `belgium`, `sweden`, `canada`, `turkey`, `saudi-arabia`, `usa`, `africa`, `ireland`, `china`, `other` or `not-sure`
+- `?country=` `schengen`, `france`, `germany`, `italy`, `spain`, `netherlands`, `belgium`, `sweden`, `canada`, `turkey`, `saudi-arabia`, `usa`, `ireland`, `china`, `nigeria`, `ghana`, `cote-divoire`, `other` or `not-sure`
 
 For example `apply.html?visa=tourist&country=canada`. An unknown value is ignored. The slugs are the `data-slug` attributes on the `<option>` elements. The contact form's destination list accepts `?country=` in the same way.
 
@@ -102,7 +102,7 @@ For example `apply.html?visa=tourist&country=canada`. An unknown value is ignore
 - [x] **Destination photos:** 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
   - Home: `eiffel-tower.jpg` (Schengen card in "Countries we assist with"), `venice-canal.jpg`, `dutch-windmills.jpg`. `colosseum.jpg` is no longer used on the home page since the hero postcards were removed. Keep it or delete it.
   - Schengen visas: `france.jpg`, `italy.jpg`, `spain.jpg`, `germany.jpg`, `netherlands.jpg`, `belgium.jpg`, `sweden.jpg`
-- [ ] **Country photos (home page, "Countries we assist with"):** seven cards show a "Licensed photo" placeholder. For each, add an 800 × 600 `.jpg` to `assets/images/`, then replace the placeholder `<div class="ph …">` with the `<img>` line in the HTML comment just above it. Files: `canada.jpg`, `turkey.jpg`, `saudi-arabia.jpg`, `usa.jpg`, `african-countries.jpg`, `ireland.jpg`, `china.jpg`. The suggested subject for each is in the comment's `alt` text.
+- [ ] **Country photos (home page, "Countries we assist with"): Pending: client to supply (reminder sent).** seven cards show a "Licensed photo" placeholder. For each, add an 800 × 600 `.jpg` to `assets/images/`, then replace the placeholder `<div class="ph …">` with the `<img>` line in the HTML comment just above it. Files: `canada.jpg`, `turkey.jpg`, `saudi-arabia.jpg`, `usa.jpg`, `african-countries.jpg`, `ireland.jpg`, `china.jpg`. The suggested subject for each is in the comment's `alt` text.
 - [x] **Background photos:** in `assets/images/`, set in `style.css` as decorative backgrounds. Each comes as a 1920px desktop file and an 800px mobile file, in WebP with a JPEG fallback, all under 200 KB:
   - Hero: `hero-bg.webp` / `hero-bg.jpg` (1920 × 1280) and `hero-bg-800.webp` / `hero-bg-800.jpg` (800 × 1000). Subject: a white aeroplane wing over clouds on a bright day. A cream overlay keeps the text readable.
   - Apply page header: `apply-bg.webp` / `apply-bg.jpg` (1920 × 800) and `apply-bg-800.webp` / `apply-bg-800.jpg` (800 × 700). Subject: a traveller with luggage at an airport. An 80% navy overlay keeps the text readable.
@@ -128,20 +128,20 @@ Search the folder for `[` to find every placeholder.
 - [x] Domain: `https://www.visaeasesolutions.co.za`, set in `CNAME` (GitHub Pages custom domain). The bare domain redirects to `www`. Canonicals, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt` all use `https://www.`. To change it, update `CNAME` and `SITE` in `tools/seo-heads.js` and `tools/seo-check.js`, then run both.
 - [x] Trading hours and service area: filled in (Mon to Fri, 8am to 5pm; all provinces in South Africa).
 - [ ] Contact email: replace the Gmail address with the domain email when it is ready. It appears in the utility bar, menu and footer on every page, and on the Home and Contact pages.
-- [ ] `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`: the social links in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the business JSON-LD on every page. If the business has no account on one of them, delete that `<li>` everywhere it appears, and remove it from `sameAs` in `tools/seo-heads.js`.
+- [x] Social media links: Facebook https://www.facebook.com/visaeasesolutions, Instagram https://www.instagram.com/visaeasesolutions and TikTok https://www.tiktok.com/@visaeasesolutions. Used in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the business JSON-LD on every page (set in `tools/seo-heads.js`).
 - [ ] `APPLY_TEMPLATE_ID` (and `SERVICE_ID`, `TEMPLATE_ID`, `PUBLIC_KEY`) in `script.js`: see EmailJS above.
-- [ ] Country photos: see the Asset checklist.
+- [ ] Country photos: Pending: client to supply (reminder sent). See the Asset checklist.
 
 ### Business JSON-LD (every page, generated by `tools/seo-heads.js`)
 - [ ] `[City or town]` and `[Province]` (`addressLocality`, `addressRegion`): a town and province the client is happy to publish. If she prefers none, delete both lines from `BUSINESS` in `tools/seo-heads.js`.
-- [ ] `sameAs`: `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`. Delete any the business does not use.
+- [x] `sameAs`: the Facebook, Instagram and TikTok page addresses.
 - [ ] Opening hours: currently Monday to Friday, 08:00 to 17:00. Update `openingHoursSpecification` if they change.
 - [ ] Email: swap `quraishakhan229@gmail.com` for `info@visaeasesolutions.co.za` once Cloudflare Email Routing is set up. Change `EMAIL` in `tools/seo-heads.js`, run it, and update the visible email on every page.
 - [ ] Edit the values in `tools/seo-heads.js`, run `node tools/seo-heads.js`, then `node tools/seo-check.js`. Do not edit the JSON-LD in the pages by hand.
 
 ### Home (`index.html`)
 - [x] JSON-LD business details: legal name, opening hours (Monday to Friday, 08:00 to 17:00) and service area filled in. No street address or postal code, by the client's choice.
-- [ ] Seven "Licensed photo" placeholders in "Countries we assist with" (see the Asset checklist).
+- [ ] Seven "Licensed photo" placeholders in "Countries we assist with": Pending: client to supply (reminder sent). See the Asset checklist.
 - [ ] Testimonials: `[Client first name]`, `[Destination]`, `[Month Year]` and the three sample reviews. Use only real feedback published with written permission, then remove the "Sample content" label.
 
 ### Our process and FAQ (`how-it-works.html`)
@@ -154,7 +154,7 @@ Search the folder for `[` to find every placeholder.
 ### Contact (`contact.html`)
 - [x] Response time: within 24 hours, excluding weekends and public holidays.
 - [x] Trading hours, after hours WhatsApp support, service area and video call consultations: filled in.
-- [ ] "Follow us" card: `[Facebook URL]`, `[Instagram URL]`, `[TikTok URL]`. The old `[Instagram]` and `[Facebook]` handle labels were replaced by icon buttons, so no handle names are needed.
+- [x] "Follow us" card: Facebook, Instagram and TikTok links filled in.
 
 ### Privacy policy (`privacy-policy.html`)
 The client must review and approve the full wording before launch.
@@ -166,11 +166,11 @@ The client must review and approve the full wording before launch.
 - [ ] `[Date]`: last updated date.
 
 ### Confirm with the client
-- [ ] **African countries:** which countries to name. The site currently says "selected African countries" and asks visitors to get in touch about their destination.
+- [x] **African countries:** Nigeria, Ghana and Côte d'Ivoire. The home page card keeps the title "African countries" (the three names do not fit the card title at 390px wide) and names them in its line. Both forms list them under an "Africa" group, with the `?country=` slugs `nigeria`, `ghana` and `cote-divoire`. The old `africa` slug is no longer used and simply leaves the list on "Choose a destination".
 - [ ] **Visa types:** whether student, work and transit visas are all offered. Each has a card on the Home page and an option in the apply form. Remove any that are not offered.
 - [ ] **Submitting on applicants' behalf:** whether the client submits applications on applicants' behalf. The site does not claim this anywhere, and the FAQ still holds `[Confirm whether any submission support is offered.]`.
 - [ ] **Social media:** the Facebook, Instagram and TikTok page addresses.
-- [ ] **Other destinations:** the site makes no claims about whether South Africans need a visa for Canada, Turkey, Saudi Arabia, the USA, Ireland, China or African countries, and gives no fees, rules or processing times for them. Add details only once they are checked against official sources.
+- [ ] **Other destinations:** the site makes no claims about whether South Africans need a visa for Canada, Turkey, Saudi Arabia, the USA, Ireland, China, Nigeria, Ghana or Côte d'Ivoire, and gives no fees, rules or processing times for them. Add details only once they are checked against official sources.
 - [ ] Exact brand colours.
 - [ ] Schengen facts on the Schengen page and in the FAQ, checked against current embassy guidance: 90 days in any 180, applying up to six months ahead and at least 15 days before travel, processing of about 15 days, and the document checklists.
 
