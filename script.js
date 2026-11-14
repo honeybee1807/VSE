@@ -7,9 +7,9 @@
 /* ---------- EmailJS configuration ----------
    One template ("Contact Us") is used by both the enquiry form and the apply form. */
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'SERVICE_ID',        // EmailJS > Email Services, e.g. 'service_abc123'
-  TEMPLATE_ID: 'template_o0kn7b6', // "Contact Us" template
-  PUBLIC_KEY: '_4EX1dlWEPT_FLu2u'  // EmailJS > Account > General > Public key
+  SERVICE_ID: 'service_globkhc',   // EmailJS > Email Services
+  TEMPLATE_ID: 'template_naj3nzr', // "Contact Us" template
+  PUBLIC_KEY: '6FzkylnerqPmcK3ry'  // EmailJS > Account > General > Public key
 };
 /* If a value above is still a placeholder, the forms cannot send. With this set to
    false (live), visitors see "Sorry, the form is not available right now. Please
