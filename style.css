@@ -41,9 +41,6 @@
   --error-line: #E7B4AF;
   --wa: #128C7E;               /* WhatsApp teal green: white icon 4.1:1 (#25D366 is only 2:1) */
   --wa-deep: #075E54;          /* hover and focus: white icon 7.7:1 */
-  --photo-sky: #E6ECF5;        /* photo placeholder tints */
-  --photo-sand: #F4E4CF;
-  --photo-sea: #DCE9EC;
   --veil-cream: rgba(251, 239, 234, .92);       /* hero photo overlay behind text: navy text stays above 10:1 */
   --veil-cream-soft: rgba(251, 239, 234, .35);
   --veil-navy: rgba(15, 37, 87, .8);            /* apply header overlay: cream text stays above 7:1 */
@@ -246,14 +243,8 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 .postmark { position: absolute; left: 6%; bottom: 8%; width: 30%; z-index: 5; color: var(--navy); transform: rotate(-10deg); }
 .postmark svg { width: 100%; height: auto; }
 
-/* ---------- 9. Photos and placeholders (swap a .ph for <img class="photo" loading="lazy">) ---------- */
+/* ---------- 9. Photos ---------- */
 .photo { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-md); }
-.ph { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; background: var(--blush); display: flex; align-items: center; justify-content: center; color: var(--navy); }
-.ph.sky { background: var(--photo-sky); }
-.ph.sand { background: var(--photo-sand); }
-.ph.sea { background: var(--photo-sea); }
-.ph .land { width: 34%; height: 34%; opacity: .45; stroke-width: 1.2; }
-.ph-tag { position: absolute; left: 8px; top: 8px; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgba(255, 255, 255, .9); padding: 3px 8px; border-radius: var(--r-pill); }
 
 /* ---------- 10. Cards ---------- */
 .card {

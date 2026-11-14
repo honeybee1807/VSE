@@ -48,16 +48,14 @@ Every page's `<head>` has these, in this order:
   "name": "Visa Ease Solutions",
   "legalName": "Visa Ease Solutions (Pty) Ltd",
   "slogan": "Document. Prepare. Travel.",
-  "description": "Visa and travel assistance for South African travellers, specialising in Schengen visas.",
+  "description": "Visa and travel assistance for South African travellers, specialising in Schengen visas, with online support for clients in any province, city or town.",
   "url": "https://www.visaeasesolutions.co.za/",
   "logo": "https://www.visaeasesolutions.co.za/android-chrome-512x512.png",
   "image": "https://www.visaeasesolutions.co.za/assets/og-image.jpg",
   "telephone": "+27682497759",
-  "email": "quraishakhan229@gmail.com",
+  "email": "info@visaeasesolutions.co.za",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "[City or town]",
-    "addressRegion": "[Province]",
     "addressCountry": "ZA"
   },
   "areaServed": {
@@ -102,9 +100,9 @@ Every page's `<head>` has these, in this order:
 ```
 
 Notes:
-- **No street address or postal code.** The business works from a home office and has chosen not to publish an address. `addressLocality` and `addressRegion` are placeholders until the client confirms a town and province she is happy to show. If she prefers none, delete both lines.
+- **No street address, town or province.** The business works from a home office and offers online support to clients in any province, city or town, so the address gives only the country (`ZA`). `areaServed` is South Africa.
 - **Opening hours** are the client's confirmed trading hours, Monday to Friday, 8am to 5pm.
-- **Email:** swap it for `info@visaeasesolutions.co.za` once Cloudflare Email Routing is set up. Change the `EMAIL` constant in `tools/seo-heads.js` and run it again. The visible email in the page content is updated separately.
+- **Email:** `info@visaeasesolutions.co.za` (Cloudflare Email Routing), switched from the Gmail address on 14 November 2026. It is the `EMAIL` constant in `tools/seo-heads.js`. The visible email in the page content is kept the same.
 - **`legalName`** is kept from the existing schema (confirmed by the client).
 - **Rank Pharmacy rules followed:** no HTML entities inside JSON-LD, every URL absolute, no trailing commas, and every block parsed as JSON by `tools/seo-check.js`.
 
@@ -120,7 +118,9 @@ Notes:
 ## Before launch
 
 - [x] `assets/og-image.jpg` (1200 × 630, 84 KB) added: the logo and name, "Visa and Travel Assistance for South Africans", "Specialising in Schengen visas", and a navy band with the slogan, domain and WhatsApp number, over the hero wing photo.
-- [ ] `[City or town]` and `[Province]` in the schema, or remove them.
+- [x] Address: the client has no location preference and offers online support anywhere in South Africa, so the schema gives only the country. The town and province placeholders were removed on 14 November 2026.
 - [x] `sameAs`: the Facebook, Instagram and TikTok page addresses (added 13 November 2026).
-- [ ] Three FAQ answers still contain placeholders, in both the visible FAQ and the `FAQPage` schema: "How early should I start?" (`[6 to 8 weeks]`), "Do you submit my application on my behalf?" (`[Confirm whether any submission support is offered.]`) and "How much do your services cost?" (`[Confirm pricing approach.]`). Update both places, then run the check again.
+- [x] "How early should I start?": finalised on 14 November 2026. No fixed lead time; it depends on the destination, its requirements and how quickly the applicant provides documents. No FAQ placeholders remain.
+- [x] "Do you submit my application on my behalf?": finalised on 14 November 2026. Yes, for certain applications; if the embassy, consulate or visa centre raises an issue, the applicant attends in person to resolve it.
+- [x] "How much do your services cost?": finalised on 14 November 2026. No set prices are published, and visitors ask for a quote.
 - [ ] Google Search Console and sitemap submission: see Section 8.

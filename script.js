@@ -7,9 +7,9 @@
 /* ---------- EmailJS configuration: replace the four placeholders ---------- */
 const EMAILJS_CONFIG = {
   SERVICE_ID: 'SERVICE_ID',               // e.g. 'service_abc123'
-  TEMPLATE_ID: 'TEMPLATE_ID',             // enquiry form (contact.html), e.g. 'template_xyz789'
+  TEMPLATE_ID: 'template_o0kn7b6',        // enquiry form (contact.html): "Contact Us" template
   APPLY_TEMPLATE_ID: 'APPLY_TEMPLATE_ID', // apply form (apply.html)
-  PUBLIC_KEY: 'PUBLIC_KEY'                // EmailJS > Account > General > Public key
+  PUBLIC_KEY: '_4EX1dlWEPT_FLu2u'         // EmailJS > Account > General > Public key
 };
 /* While the placeholders above are unchanged, the forms show their success state
    without sending, so the design can be tested locally. Set to false to show

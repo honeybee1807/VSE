@@ -102,7 +102,7 @@ For example `apply.html?visa=tourist&country=canada`. An unknown value is ignore
 - [x] **Destination photos:** 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
   - Home: `eiffel-tower.jpg` (Schengen card in "Countries we assist with"), `venice-canal.jpg`, `dutch-windmills.jpg`. `colosseum.jpg` is no longer used on the home page since the hero postcards were removed. Keep it or delete it.
   - Schengen visas: `france.jpg`, `italy.jpg`, `spain.jpg`, `germany.jpg`, `netherlands.jpg`, `belgium.jpg`, `sweden.jpg`
-- [ ] **Country photos (home page, "Countries we assist with"): Pending: client to supply (reminder sent).** seven cards show a "Licensed photo" placeholder. For each, add an 800 × 600 `.jpg` to `assets/images/`, then replace the placeholder `<div class="ph …">` with the `<img>` line in the HTML comment just above it. Files: `canada.jpg`, `turkey.jpg`, `saudi-arabia.jpg`, `usa.jpg`, `african-countries.jpg`, `ireland.jpg`, `china.jpg`. The suggested subject for each is in the comment's `alt` text.
+- [x] **Country photos (home page, "Countries we assist with"):** supplied 14 November 2026. Seven licensed Pexels photos (800 × 600 `.jpg`) in `assets/images/`: `canada.jpg` (Vancouver), `turkey.jpg` (hot air balloons over rocky valleys), `saudi-arabia.jpg` (Riyadh at night), `usa.jpg` (New York City), `african-countries.jpg` (Lagos, Nigeria), `ireland.jpg` (Cliffs of Moher) and `china.jpg` (Great Wall). Credits are below and in `assets/images/IMAGE-CREDITS.md`. To replace one, overwrite the file with the same name and size, and update its `alt` text in `index.html`.
 - [x] **Background photos:** in `assets/images/`, set in `style.css` as decorative backgrounds. Each comes as a 1920px desktop file and an 800px mobile file, in WebP with a JPEG fallback, all under 200 KB:
   - Hero: `hero-bg.webp` / `hero-bg.jpg` (1920 × 1280) and `hero-bg-800.webp` / `hero-bg-800.jpg` (800 × 1000). Subject: a white aeroplane wing over clouds on a bright day. A cream overlay keeps the text readable.
   - Apply page header: `apply-bg.webp` / `apply-bg.jpg` (1920 × 800) and `apply-bg-800.webp` / `apply-bg-800.jpg` (800 × 700). Subject: a traveller with luggage at an airport. An 80% navy overlay keeps the text readable.
@@ -111,14 +111,21 @@ For example `apply.html?visa=tourist&country=canada`. An unknown value is ignore
 
 ## Image credits
 
-Both background photos are free to use for commercial work without attribution. The credits are recorded here as the licence record.
+All photos in this table are free to use for commercial work without attribution (Unsplash License or Pexels License). The credits are recorded here as the licence record.
 
 | File | Subject | Photographer | Source | Licence |
 |---|---|---|---|---|
 | `hero-bg*` | White aeroplane wing above clouds, over Exuma, The Bahamas | Lee Robinson | [Unsplash](https://unsplash.com/photos/white-airplane-wing-across-clouds-during-daytime-PJlkDMPtFEE) | [Unsplash License](https://unsplash.com/license) |
 | `apply-bg*` | Man with luggage on an airport escalator | Berna (`@mibernaa`) | [Pexels](https://www.pexels.com/photo/man-with-luggage-on-an-escalator-18628693/) | [Pexels License](https://www.pexels.com/license/) |
+| `canada.jpg` | Vancouver skyline and marina with mountains | Luke Lawreszuk | [Pexels](https://www.pexels.com/photo/vancouver-skyline-with-mountains-and-marina-29072584/) | [Pexels License](https://www.pexels.com/license/) |
+| `turkey.jpg` | Hot air balloons over rocky valleys | Julia Volk | [Pexels](https://www.pexels.com/photo/flying-hot-air-balloons-in-the-sky-6173322/) | [Pexels License](https://www.pexels.com/license/) |
+| `saudi-arabia.jpg` | Riyadh skyline at night | abul lais | [Pexels](https://www.pexels.com/photo/stunning-night-view-of-riyadh-skyline-39470846/) | [Pexels License](https://www.pexels.com/license/) |
+| `usa.jpg` | New York City skyline across the Hudson River | Sarowar Hussain | [Pexels](https://www.pexels.com/photo/the-famous-sky-scrapers-of-new-york-with-a-view-from-across-the-hudson-river-5450747/) | [Pexels License](https://www.pexels.com/license/) |
+| `african-countries.jpg` | Lagos skyline, Nigeria, with a boat on the lagoon | Fawaz Onakoya | [Pexels](https://www.pexels.com/photo/modern-lagos-skyline-with-watercraft-in-lagoon-37405043/) | [Pexels License](https://www.pexels.com/license/) |
+| `ireland.jpg` | Cliffs of Moher, Ireland | Andras Stefuca | [Pexels](https://www.pexels.com/photo/scenic-photo-of-the-cliffs-of-moher-in-ireland-17938481/) | [Pexels License](https://www.pexels.com/license/) |
+| `china.jpg` | Great Wall of China through green hills | Jens F | [Pexels](https://www.pexels.com/photo/great-wall-of-china-winding-through-lush-hills-32985169/) | [Pexels License](https://www.pexels.com/license/) |
 
-The 11 destination photos were added earlier. Keep their licence records with the client's files.
+The seven country photos were downloaded from Pexels, centre cropped to 4:3 and resized to 800 × 600 (see `assets/images/IMAGE-CREDITS.md`). The 11 Schengen destination photos were added earlier. Keep their licence records with the client's files.
 
 ## Placeholder checklist
 
@@ -126,29 +133,29 @@ Search the folder for `[` to find every placeholder.
 
 ### Site wide
 - [x] Domain: `https://www.visaeasesolutions.co.za`, set in `CNAME` (GitHub Pages custom domain). The bare domain redirects to `www`. Canonicals, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt` all use `https://www.`. To change it, update `CNAME` and `SITE` in `tools/seo-heads.js` and `tools/seo-check.js`, then run both.
-- [x] Trading hours and service area: filled in (Mon to Fri, 8am to 5pm; all provinces in South Africa).
-- [ ] Contact email: replace the Gmail address with the domain email when it is ready. It appears in the utility bar, menu and footer on every page, and on the Home and Contact pages.
+- [x] Trading hours and service area: Mon to Fri, 8am to 5pm. Online support for clients anywhere in South Africa (footer: "Online support across South Africa"; Contact page: "Anywhere in South Africa").
+- [x] Contact email: `info@visaeasesolutions.co.za` (Cloudflare Email Routing). It appears in the utility bar, mobile menu and footer on every page, on the Home and Contact pages, and in the JSON-LD (`EMAIL` in `tools/seo-heads.js`).
 - [x] Social media links: Facebook https://www.facebook.com/visaeasesolutions, Instagram https://www.instagram.com/visaeasesolutions and TikTok https://www.tiktok.com/@visaeasesolutions. Used in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the business JSON-LD on every page (set in `tools/seo-heads.js`).
 - [ ] `APPLY_TEMPLATE_ID` (and `SERVICE_ID`, `TEMPLATE_ID`, `PUBLIC_KEY`) in `script.js`: see EmailJS above.
-- [ ] Country photos: Pending: client to supply (reminder sent). See the Asset checklist.
+- [x] Country photos: supplied. See the Asset checklist.
 
 ### Business JSON-LD (every page, generated by `tools/seo-heads.js`)
-- [ ] `[City or town]` and `[Province]` (`addressLocality`, `addressRegion`): a town and province the client is happy to publish. If she prefers none, delete both lines from `BUSINESS` in `tools/seo-heads.js`.
+- [x] Address: the client has no preference for location. She offers online support, so clients can be in any province, city or town. The JSON-LD gives only the country (`addressCountry: ZA`) and `areaServed: South Africa`, with no town, province, street address or postal code.
 - [x] `sameAs`: the Facebook, Instagram and TikTok page addresses.
 - [ ] Opening hours: currently Monday to Friday, 08:00 to 17:00. Update `openingHoursSpecification` if they change.
-- [ ] Email: swap `quraishakhan229@gmail.com` for `info@visaeasesolutions.co.za` once Cloudflare Email Routing is set up. Change `EMAIL` in `tools/seo-heads.js`, run it, and update the visible email on every page.
+- [x] Email: `info@visaeasesolutions.co.za`, set as `EMAIL` in `tools/seo-heads.js`.
 - [ ] Edit the values in `tools/seo-heads.js`, run `node tools/seo-heads.js`, then `node tools/seo-check.js`. Do not edit the JSON-LD in the pages by hand.
 
 ### Home (`index.html`)
 - [x] JSON-LD business details: legal name, opening hours (Monday to Friday, 08:00 to 17:00) and service area filled in. No street address or postal code, by the client's choice.
-- [ ] Seven "Licensed photo" placeholders in "Countries we assist with": Pending: client to supply (reminder sent). See the Asset checklist.
+- [x] "Countries we assist with" photos: all eight cards now show licensed photos.
 - [ ] Testimonials: `[Client first name]`, `[Destination]`, `[Month Year]` and the three sample reviews. Use only real feedback published with written permission, then remove the "Sample content" label.
 
 ### Our process and FAQ (`how-it-works.html`)
 - [x] Response time: within 24 hours, excluding weekends and public holidays.
-- [ ] `[Confirm whether any submission support is offered.]`
-- [ ] `[Confirm pricing approach.]`
-- [ ] Confirm the recommended lead time of 6 to 8 weeks.
+- [x] Submission support: answered in the FAQ "Do you submit my application on my behalf?" (visible text and FAQ JSON-LD).
+- [x] Pricing approach: no set prices are published. Visitors ask for a quote, and every mention on the site follows that (FAQ "How much do your services cost?", the "Request a Quote" buttons, the process steps and the contact copy).
+- [x] Lead time: no fixed number. It depends on the destination and its requirements, and on how quickly the applicant provides their documents. FAQ "How early should I start?" says so and asks people to contact Visa Ease early for a realistic timeline.
 - [ ] FAQ answers also appear in the FAQ JSON-LD in the page head. Update both places.
 
 ### Contact (`contact.html`)
@@ -168,7 +175,7 @@ The client must review and approve the full wording before launch.
 ### Confirm with the client
 - [x] **African countries:** Nigeria, Ghana and Côte d'Ivoire. The home page card keeps the title "African countries" (the three names do not fit the card title at 390px wide) and names them in its line. Both forms list them under an "Africa" group, with the `?country=` slugs `nigeria`, `ghana` and `cote-divoire`. The old `africa` slug is no longer used and simply leaves the list on "Choose a destination".
 - [ ] **Visa types:** whether student, work and transit visas are all offered. Each has a card on the Home page and an option in the apply form. Remove any that are not offered.
-- [ ] **Submitting on applicants' behalf:** whether the client submits applications on applicants' behalf. The site does not claim this anywhere, and the FAQ still holds `[Confirm whether any submission support is offered.]`.
+- [x] **Submitting on applicants' behalf:** yes, for certain applications. If the embassy, consulate or visa centre raises an issue, the applicant must attend in person to resolve it. Stated in the FAQ and in the Privacy Policy's list of how personal information is used.
 - [ ] **Social media:** the Facebook, Instagram and TikTok page addresses.
 - [ ] **Other destinations:** the site makes no claims about whether South Africans need a visa for Canada, Turkey, Saudi Arabia, the USA, Ireland, China, Nigeria, Ghana or Côte d'Ivoire, and gives no fees, rules or processing times for them. Add details only once they are checked against official sources.
 - [ ] Exact brand colours.

@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 const SITE = 'https://www.visaeasesolutions.co.za';
-const EMAIL = 'quraishakhan229@gmail.com'; // swap for info@visaeasesolutions.co.za once Cloudflare Email Routing is set up
+const EMAIL = 'info@visaeasesolutions.co.za'; // business email (Cloudflare Email Routing)
 const SHARE_IMAGE = `${SITE}/assets/og-image.jpg`;
 const SHARE_IMAGE_ALT = 'Visa Ease Solutions: Visa and Travel Assistance, specialising in Schengen visas';
 
@@ -62,7 +62,7 @@ const BUSINESS = {
   name: 'Visa Ease Solutions',
   legalName: 'Visa Ease Solutions (Pty) Ltd',
   slogan: 'Document. Prepare. Travel.',
-  description: 'Visa and travel assistance for South African travellers, specialising in Schengen visas.',
+  description: 'Visa and travel assistance for South African travellers, specialising in Schengen visas, with online support for clients in any province, city or town.',
   url: `${SITE}/`,
   logo: `${SITE}/android-chrome-512x512.png`,
   image: SHARE_IMAGE,
@@ -70,8 +70,6 @@ const BUSINESS = {
   email: EMAIL,
   address: {
     '@type': 'PostalAddress',
-    addressLocality: '[City or town]',
-    addressRegion: '[Province]',
     addressCountry: 'ZA'
   },
   areaServed: { '@type': 'Country', name: 'South Africa' },
