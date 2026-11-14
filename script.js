@@ -122,11 +122,20 @@ const DEMO_WHEN_UNCONFIGURED = false;
     if (reduceMotion || !('IntersectionObserver' in window)) {
       reveals.forEach((el) => el.classList.add('in'));
     } else {
+      /* Mark an element as settled once its fade-in ends, so the stagger delay
+         no longer slows down hover effects. */
+      const settle = (el) => {
+        const done = () => el.classList.add('revealed');
+        el.addEventListener('transitionend', (e) => { if (e.propertyName === 'opacity') done(); }, { once: true });
+        window.setTimeout(done, 900); // fallback if transitionend never fires
+      };
+      /* Start the fade slightly before the element scrolls into view, so it is
+         already appearing as the visitor reaches it. */
       const io = new IntersectionObserver((entries, obs) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) { entry.target.classList.add('in'); obs.unobserve(entry.target); }
+          if (entry.isIntersecting) { entry.target.classList.add('in'); settle(entry.target); obs.unobserve(entry.target); }
         });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+      }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
       reveals.forEach((el) => io.observe(el));
     }
   }
