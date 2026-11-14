@@ -4,17 +4,18 @@
    scroll reveal and the enquiry and apply forms (EmailJS).
    ========================================================================== */
 
-/* ---------- EmailJS configuration: replace the four placeholders ---------- */
+/* ---------- EmailJS configuration ----------
+   One template ("Contact Us") is used by both the enquiry form and the apply form. */
 const EMAILJS_CONFIG = {
-  SERVICE_ID: 'SERVICE_ID',               // e.g. 'service_abc123'
-  TEMPLATE_ID: 'template_o0kn7b6',        // enquiry form (contact.html): "Contact Us" template
-  APPLY_TEMPLATE_ID: 'APPLY_TEMPLATE_ID', // apply form (apply.html)
-  PUBLIC_KEY: '_4EX1dlWEPT_FLu2u'         // EmailJS > Account > General > Public key
+  SERVICE_ID: 'SERVICE_ID',        // EmailJS > Email Services, e.g. 'service_abc123'
+  TEMPLATE_ID: 'template_o0kn7b6', // "Contact Us" template
+  PUBLIC_KEY: '_4EX1dlWEPT_FLu2u'  // EmailJS > Account > General > Public key
 };
-/* While the placeholders above are unchanged, the forms show their success state
-   without sending, so the design can be tested locally. Set to false to show
-   an error instead. */
-const DEMO_WHEN_UNCONFIGURED = true;
+/* If a value above is still a placeholder, the forms cannot send. With this set to
+   false (live), visitors see "Sorry, the form is not available right now. Please
+   contact us on WhatsApp on 068 249 7759." Set to true only for local design
+   testing: the forms then show their success state without sending anything. */
+const DEMO_WHEN_UNCONFIGURED = false;
 
 (function () {
   'use strict';
@@ -131,8 +132,8 @@ const DEMO_WHEN_UNCONFIGURED = true;
   }
 
   /* ---------- Forms: enquiry (contact.html) and apply (apply.html) ----------
-     Every <form data-form> shares the same validation, alerts, success state
-     and EmailJS sending. data-template names the EMAILJS_CONFIG key to use. */
+     Every <form data-form> shares the same validation, alerts, success state,
+     and EmailJS template. */
   const DEFAULT_ALERT = 'Please check the highlighted fields and try again.';
   const normalisePhone = (v) => v.replace(/[\s\-().]/g, '');
   const isName = (min) => (v) => v.trim().length >= min && /[A-Za-zÀ-ÿ]/.test(v);
@@ -144,7 +145,7 @@ const DEMO_WHEN_UNCONFIGURED = true;
     whatsapp: (v) => { const n = normalisePhone(v); return /^(?:\+27|0027|27|0)[1-9]\d{8}$/.test(n) || /^\+(?!27)[1-9]\d{7,14}$/.test(n); },
     email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
   };
-  const PLACEHOLDER = /^(SERVICE_ID|TEMPLATE_ID|APPLY_TEMPLATE_ID|PUBLIC_KEY)$/;
+  const PLACEHOLDER = /^(SERVICE_ID|TEMPLATE_ID|PUBLIC_KEY)$/;
 
   /* Preselect a <select data-param="visa"> or data-param="country" option from
      the URL, for example apply.html?visa=tourist or apply.html?country=canada */
@@ -164,7 +165,6 @@ const DEMO_WHEN_UNCONFIGURED = true;
     const submitLabel = $('[data-submit-label]', form);
     const submitText = form.dataset.submitText || submitLabel.textContent;
     const noun = form.dataset.noun || 'message';
-    const templateKey = form.dataset.template || 'TEMPLATE_ID';
     const failMsg = `Sorry, we could not send your ${noun}. Please try again or contact us on WhatsApp on 068 249 7759.`;
     const ruleNames = Object.keys(rules).filter((name) => form.elements[name]);
     const consent = form.elements.consent;
@@ -210,8 +210,7 @@ const DEMO_WHEN_UNCONFIGURED = true;
       done.hidden = false;
       done.focus();
     };
-    const isConfigured = () => ![EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG[templateKey], EMAILJS_CONFIG.PUBLIC_KEY]
-      .some((v) => !v || PLACEHOLDER.test(v));
+    const isConfigured = () => !Object.values(EMAILJS_CONFIG).some((v) => !v || PLACEHOLDER.test(v));
 
     const collect = () => {
       const data = new FormData(form);
@@ -222,6 +221,11 @@ const DEMO_WHEN_UNCONFIGURED = true;
       out.consent = consent.checked ? 'yes' : 'no';
       out.form_type = out.form_type || 'enquiry';
       out.page = window.location.href;
+      /* The apply form shares the enquiry template: fill that template's
+         full_name and purpose fields, and put the town at the top of the message. */
+      if (out.first_name || out.last_name) out.full_name = `${out.first_name || ''} ${out.last_name || ''}`.trim();
+      if (out.visa_type && !out.purpose) out.purpose = out.visa_type;
+      if (out.town) out.message = `Town or city: ${out.town}` + (out.message ? `\n\n${out.message}` : '');
       return out;
     };
 
@@ -242,7 +246,7 @@ const DEMO_WHEN_UNCONFIGURED = true;
       if (form.elements.company_website.value) { showSuccess(); return; }
 
       if (!isConfigured()) {
-        console.warn(`[Visa Ease] EmailJS is not configured. Replace SERVICE_ID, ${templateKey} and PUBLIC_KEY in script.js.`);
+        console.warn(`[Visa Ease] EmailJS is not configured. Replace SERVICE_ID, TEMPLATE_ID and PUBLIC_KEY in script.js.`);
         if (DEMO_WHEN_UNCONFIGURED) { showSuccess(); return; }
         showAlert('Sorry, the form is not available right now. Please contact us on WhatsApp on 068 249 7759.');
         return;
@@ -252,7 +256,7 @@ const DEMO_WHEN_UNCONFIGURED = true;
 
       setLoading(true);
       try {
-        await window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG[templateKey], collect(), { publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
+        await window.emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, collect(), { publicKey: EMAILJS_CONFIG.PUBLIC_KEY });
         showSuccess();
       } catch (err) {
         console.error('[Visa Ease] EmailJS error', err);

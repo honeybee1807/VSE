@@ -52,32 +52,29 @@ Netlify serves `404.html` for missing pages automatically.
 
 GitHub Pages also serves `404.html` for missing pages automatically.
 
-## EmailJS (enquiry and apply forms)
+## EmailJS (one template for both forms)
 
-Both forms use the same code in `script.js` and the same EmailJS service, but each sends through **its own template**, because the fields differ:
+The enquiry form (`#enquiry-form`, `contact.html`) and the apply form (`#apply-form`, `apply.html`) share the same code in `script.js`, the same EmailJS service and **one template**: the "Contact Us" template, `template_o0kn7b6`. There is no separate apply template.
 
-| Form | Page | Config key in `script.js` |
-|---|---|---|
-| Enquiry form (`#enquiry-form`) | `contact.html` | `TEMPLATE_ID` |
-| Apply form (`#apply-form`) | `apply.html` | `APPLY_TEMPLATE_ID` |
+So that apply emails fill the same template, `script.js` maps the apply form's fields before sending:
+- First name and last name become `{{full_name}}`.
+- Visa type becomes `{{purpose}}`.
+- Town or city is added at the top of `{{message}}`, as "Town or city: …".
 
-Every message also carries a `{{form_type}}` value (`enquiry` or `apply`), so you can put it in the subject line, for example `New {{form_type}} from the website`.
+Every email also carries `{{form_type}}` (`enquiry` or `apply`), so the subject can show which form was used, for example `New website {{form_type}} from {{full_name}}`.
 
-1. Create an account at emailjs.com and add an email service connected to the client's mailbox.
-2. Create the **enquiry template** with these variables: `{{full_name}}`, `{{whatsapp}}`, `{{email}}`, `{{destination}}`, `{{purpose}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}`, `{{form_type}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
-3. Create the **apply template** with these variables: `{{first_name}}`, `{{last_name}}`, `{{email}}`, `{{whatsapp}}`, `{{town}}`, `{{destination}}`, `{{visa_type}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}`, `{{form_type}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
-4. At the top of `script.js`, replace the four values:
+1. In EmailJS, connect an email service to the client's mailbox.
+2. The "Contact Us" template uses these variables: `{{full_name}}`, `{{whatsapp}}`, `{{email}}`, `{{destination}}`, `{{purpose}}`, `{{travel_dates}}`, `{{applicants}}`, `{{message}}`, `{{consent}}`, `{{form_type}}` and `{{page}}`. Set **Reply To** to `{{email}}`.
+3. At the top of `script.js`, the three values are:
    ```js
    const EMAILJS_CONFIG = {
-     SERVICE_ID: 'SERVICE_ID',
-     TEMPLATE_ID: 'TEMPLATE_ID',
-     APPLY_TEMPLATE_ID: 'APPLY_TEMPLATE_ID',
-     PUBLIC_KEY: 'PUBLIC_KEY'
+     SERVICE_ID: 'SERVICE_ID',        // still to be added
+     TEMPLATE_ID: 'template_o0kn7b6', // "Contact Us" template
+     PUBLIC_KEY: '_4EX1dlWEPT_FLu2u'  // confirm against the dashboard
    };
    ```
-   If you would rather use one template for both forms, set `APPLY_TEMPLATE_ID` to the same value as `TEMPLATE_ID` and include every variable from both lists. Variables a form does not send are left blank.
-5. In the EmailJS dashboard, restrict the public key to the live domain (**Account > Security**).
-6. Set `DEMO_WHEN_UNCONFIGURED` in `script.js` to `false` before launch. While it is `true` and a form's keys are unchanged, that form shows its success message without sending anything.
+4. In the EmailJS dashboard, restrict the public key to the live domain (**Account > Security**).
+5. `DEMO_WHEN_UNCONFIGURED` in `script.js` is `false` (live). While a value above is still a placeholder, visitors who submit a form see "Sorry, the form is not available right now. Please contact us on WhatsApp on 068 249 7759." and nothing is sent. Set it to `true` only for local design testing, when the forms show their success state without sending.
 
 How the forms behave:
 - They validate names, the town or city (apply form), a South African mobile number (`082 123 4567`, `+27 82 123 4567` and `27821234567` are all accepted) and email.
@@ -89,15 +86,14 @@ How the forms behave:
 
 `apply.html` reads two optional URL parameters and selects the matching option:
 
-- `?visa=` `tourist`, `business`, `family`, `student`, `work`, `transit` or `not-sure`
+- `?visa=` `tourist`, `business` or `not-sure` (the client offers tourist and business visas only). Old links such as `?visa=family` leave the list on "Choose a visa type".
 - `?country=` `schengen`, `france`, `germany`, `italy`, `spain`, `netherlands`, `belgium`, `sweden`, `canada`, `turkey`, `saudi-arabia`, `usa`, `ireland`, `china`, `nigeria`, `ghana`, `cote-divoire`, `other` or `not-sure`
 
 For example `apply.html?visa=tourist&country=canada`. An unknown value is ignored. The slugs are the `data-slug` attributes on the `<option>` elements. The contact form's destination list accepts `?country=` in the same way.
 
 ## Asset checklist
 
-- [ ] **Fonts:** create `assets/fonts/` and add these self-hosted files (all SIL Open Font License):
-  `playfair-display-600.woff2`, `playfair-display-700.woff2`, `allura-400.woff2`, `plus-jakarta-sans-400.woff2`, `plus-jakarta-sans-500.woff2`, `plus-jakarta-sans-600.woff2`, `plus-jakarta-sans-700.woff2`. Until they are added, the site falls back to system fonts.
+- [x] **Fonts:** the 7 self-hosted `.woff2` files are in `assets/fonts/` (Latin subset, from Fontsource, which repackages the Google Fonts releases): `playfair-display-600`, `playfair-display-700`, `allura-400` and `plus-jakarta-sans-400`, `-500`, `-600`, `-700`. All are under the SIL Open Font License, and each family's licence is alongside them (`OFL-Playfair-Display.txt`, `OFL-Allura.txt`, `OFL-Plus-Jakarta-Sans.txt`). Keep the licence files with the fonts.
 - [x] **Social sharing image:** `assets/og-image.jpg`, 1200 × 630, 84 KB. Shows when a page link is shared on WhatsApp, Facebook, LinkedIn or X. It uses the logo, the brand fonts and the hero wing photo. To update it, replace the file with the same name and size. WhatsApp and Facebook cache previews, so a change can take a while to appear (Facebook's Sharing Debugger can refresh it).
 - [x] **Destination photos:** 11 licensed photos are in `assets/images/` (800 × 600 `.jpg`). Keep the licence records for each one. To replace a photo, overwrite the file with the same name and size:
   - Home: `eiffel-tower.jpg` (Schengen card in "Countries we assist with"), `venice-canal.jpg`, `dutch-windmills.jpg`. `colosseum.jpg` is no longer used on the home page since the hero postcards were removed. Keep it or delete it.
@@ -136,7 +132,7 @@ Search the folder for `[` to find every placeholder.
 - [x] Trading hours and service area: Mon to Fri, 8am to 5pm. Online support for clients anywhere in South Africa (footer: "Online support across South Africa"; Contact page: "Anywhere in South Africa").
 - [x] Contact email: `info@visaeasesolutions.co.za` (Cloudflare Email Routing). It appears in the utility bar, mobile menu and footer on every page, on the Home and Contact pages, and in the JSON-LD (`EMAIL` in `tools/seo-heads.js`).
 - [x] Social media links: Facebook https://www.facebook.com/visaeasesolutions, Instagram https://www.instagram.com/visaeasesolutions and TikTok https://www.tiktok.com/@visaeasesolutions. Used in the utility bar and footer on every page, the "Follow us" card on the Contact page, and `sameAs` in the business JSON-LD on every page (set in `tools/seo-heads.js`).
-- [ ] `APPLY_TEMPLATE_ID` (and `SERVICE_ID`, `TEMPLATE_ID`, `PUBLIC_KEY`) in `script.js`: see EmailJS above.
+- [ ] EmailJS `SERVICE_ID` in `script.js` (still a placeholder). `TEMPLATE_ID` and `PUBLIC_KEY` are filled in. See EmailJS above.
 - [x] Country photos: supplied. See the Asset checklist.
 
 ### Business JSON-LD (every page, generated by `tools/seo-heads.js`)
@@ -149,7 +145,7 @@ Search the folder for `[` to find every placeholder.
 ### Home (`index.html`)
 - [x] JSON-LD business details: legal name, opening hours (Monday to Friday, 08:00 to 17:00) and service area filled in. No street address or postal code, by the client's choice.
 - [x] "Countries we assist with" photos: all eight cards now show licensed photos.
-- [ ] Testimonials: `[Client first name]`, `[Destination]`, `[Month Year]` and the three sample reviews. Use only real feedback published with written permission, then remove the "Sample content" label.
+- [ ] Testimonials: the "What our travellers say" section is **hidden** (wrapped in an HTML comment in `index.html`) until there is real client feedback, shared with written permission. To show it, replace the three sample reviews and `[Client first name]`, `[Destination]`, `[Month Year]`, delete the "Sample content" label, and remove the comment wrapper. Never publish invented reviews.
 
 ### Our process and FAQ (`how-it-works.html`)
 - [x] Response time: within 24 hours, excluding weekends and public holidays.
@@ -166,15 +162,11 @@ Search the folder for `[` to find every placeholder.
 ### Privacy policy (`privacy-policy.html`)
 The client must review and approve the full wording before launch.
 - [x] Registered business name filled in. No business address is published.
-- [ ] `[Describe secure document sharing method, storage and access controls.]`
-- [ ] `[Retention period]`
-- [ ] `[Information Regulator contact details]`
-- [ ] `[Information Officer name]`, `[email address]`
-- [ ] `[Date]`: last updated date.
+- [x] Placeholders removed at the client's request (independent, non-VAT registered business): the "How we keep it secure", "How long we keep it" and "Information Officer" sections, the Information Regulator contact details and the "Last updated" date. The policy now has 10 sections, renumbered, with no placeholders.
 
 ### Confirm with the client
 - [x] **African countries:** Nigeria, Ghana and Côte d'Ivoire. The home page card keeps the title "African countries" (the three names do not fit the card title at 390px wide) and names them in its line. Both forms list them under an "Africa" group, with the `?country=` slugs `nigeria`, `ghana` and `cote-divoire`. The old `africa` slug is no longer used and simply leaves the list on "Choose a destination".
-- [ ] **Visa types:** whether student, work and transit visas are all offered. Each has a card on the Home page and an option in the apply form. Remove any that are not offered.
+- [x] **Visa types:** tourist and business visas only, as confirmed by the client. The home page "Visa types we assist with", the Schengen page "Which visa fits your trip?" and the apply form list only these two (plus "Not sure yet" on the form).
 - [x] **Submitting on applicants' behalf:** yes, for certain applications. If the embassy, consulate or visa centre raises an issue, the applicant must attend in person to resolve it. Stated in the FAQ and in the Privacy Policy's list of how personal information is used.
 - [ ] **Social media:** the Facebook, Instagram and TikTok page addresses.
 - [ ] **Other destinations:** the site makes no claims about whether South Africans need a visa for Canada, Turkey, Saudi Arabia, the USA, Ireland, China, Nigeria, Ghana or Côte d'Ivoire, and gives no fees, rules or processing times for them. Add details only once they are checked against official sources.
