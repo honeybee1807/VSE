@@ -39,8 +39,8 @@
   --error: #A3352F;
   --error-bg: #FBE6E3;
   --error-line: #E7B4AF;
-  --wa: #128C7E;               /* WhatsApp teal green: white icon 4.1:1 (#25D366 is only 2:1) */
-  --wa-deep: #075E54;          /* hover and focus: white icon 7.7:1 */
+  --wa: #25D366;               /* WhatsApp brand green, at the client's request (white icon is 2:1, below the 3:1 guideline) */
+  --wa-deep: #1DA851;          /* hover and focus: a slightly deeper WhatsApp green */
   --veil-cream: rgba(251, 239, 234, .92);       /* hero photo overlay behind text: navy text stays above 10:1 */
   --veil-cream-soft: rgba(251, 239, 234, .35);
   --veil-navy: rgba(15, 37, 87, .8);            /* apply header overlay: cream text stays above 7:1 */
@@ -366,7 +366,7 @@ button, .btn, a, input[type="checkbox"], select { touch-action: manipulation; }
 /* White ring between two navy bands: visible on cream and on the navy footer */
 .wa-float:focus-visible { outline: 3px solid var(--white); outline-offset: 2px; border-radius: 50%; box-shadow: 0 0 0 7px var(--navy); }
 .wa-float::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
-@keyframes waPulse { from { box-shadow: 0 0 0 0 rgba(18, 140, 126, .45); } to { box-shadow: 0 0 0 16px rgba(18, 140, 126, 0); } }
+@keyframes waPulse { from { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); } to { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); } }
 @media (prefers-reduced-motion: no-preference) {
   .wa-float::after { animation: waPulse 2.4s var(--ease) 1s 3; }   /* three pulses, then still */
 }
